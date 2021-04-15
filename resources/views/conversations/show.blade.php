@@ -35,7 +35,14 @@
             <div class="col-7 px-0">
                 <div class="px-4 py-5 chat-box bg-white">
 
+                    <livewire:conversations.conversation-messages :conversation="$conversation"
+                                                                  :messages="$conversation->messages"/>
+
                 </div>
+
+                <!-- Typing area -->
+                <livewire:conversations.conversation-reply :conversation="$conversation" />
+
             </div>
         </div>
     </div>

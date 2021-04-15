@@ -34,7 +34,7 @@
             <!-- Chat Box-->
             <div class="col-7 px-0">
                 <div class="px-4 py-5 chat-box bg-white">
-
+                    <livewire:conversations.conversation-create />
                 </div>
             </div>
         </div>

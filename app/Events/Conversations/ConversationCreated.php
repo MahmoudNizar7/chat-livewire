@@ -9,7 +9,7 @@
     use Illuminate\Foundation\Events\Dispatchable;
     use Illuminate\Queue\SerializesModels;
 
-    class ConversationUpdated implements ShouldBroadcast
+    class ConversationCreated implements ShouldBroadcast
     {
         use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -41,7 +41,7 @@
          */
         public function broadcastOn()
         {
-            return $this->conversation->users->map(function ($user) {
+            return $this->conversation->others->map(function ($user) {
                 return new PrivateChannel('User.' . $user->id);
             })->toArray();
         }

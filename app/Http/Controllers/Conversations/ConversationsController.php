@@ -4,6 +4,7 @@
 
     use App\Http\Controllers\Controller;
     use App\Models\Conversation;
+    use App\Models\User;
     use Illuminate\Http\Request;
 
 

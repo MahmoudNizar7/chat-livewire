@@ -4,6 +4,7 @@
 
     use Illuminate\Database\Eloquent\Factories\HasFactory;
     use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
     class Conversation extends Model
     {
@@ -18,18 +19,19 @@
             return 'uuid';
         }
 
-        public function others()
-        {
-            return $this->users()->where('user_id', '!=', auth()->id());
-        }
 
         // Relations
-        public function users()
+        public function users(): BelongsToMany
         {
             return $this->belongsToMany(User::class)
                 ->withPivot('read_at')
                 ->withTimestamps()
                 ->latest();
+        }
+
+        public function others(): BelongsToMany
+        {
+            return $this->users()->where('user_id', '!=', auth()->id());
         }
 
         public function messages()

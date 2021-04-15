@@ -1,13 +1,57 @@
 <?php
 
-namespace App\Http\Livewire\Conversations;
+    namespace App\Http\Livewire\Conversations;
 
-use Livewire\Component;
+    use App\Events\Conversations\ConversationCreated;
+    use App\Models\Conversation;
+    use Illuminate\Support\Str;
+    use Livewire\Component;
 
-class ConversationCreate extends Component
-{
-    public function render()
+    class ConversationCreate extends Component
     {
-        return view('livewire.conversations.conversation-create');
+        public $name = '';
+        public $body = '';
+        public $users = [];
+        public $rules = [
+            'users' => 'required',
+            'name' => 'nullable|string',
+            'body' => 'required'
+        ];
+
+        public function addUser($user)
+        {
+            $this->users[] = $user;
+        }
+
+        public function create()
+        {
+            $this->validate();
+
+            $conversation = Conversation::create([
+                'name' => $this->name,
+                'uuid' => Str::uuid(),
+                'user_id' => auth()->id(),
+            ]);
+
+            $conversation->messages()->create([
+                'user_id' => auth()->id(),
+                'body' => $this->body
+            ]);
+
+            $conversation->users()->sync($this->collectUsersIds());
+
+            broadcast(new ConversationCreated($conversation))->toOthers();
+
+            return redirect()->route('conversations.show', $conversation);
+        }
+
+        public function collectUsersIds()
+        {
+            return collect($this->users)->merge([auth()->user()])->pluck('id')->unique();
+        }
+
+        public function render()
+        {
+            return view('livewire.conversations.conversation-create');
+        }
     }
-}

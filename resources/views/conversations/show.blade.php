@@ -21,6 +21,7 @@
                     <livewire:conversations.conversation-users :conversation="$conversation"
                                                                :users="$conversation->users" />
 
+
                     <div class="messages-box">
                         <div class="list-group rounded-0">
 

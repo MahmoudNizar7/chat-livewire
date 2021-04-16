@@ -2,6 +2,7 @@
 
     namespace App\Http\Livewire\Conversations;
 
+    use App\Events\Conversations\ConversationUpdated;
     use App\Events\Conversations\MessageAdded;
     use App\Models\Conversation;
     use Livewire\Component;
@@ -50,6 +51,7 @@
             }
 
             broadcast(new MessageAdded($message))->toOthers();
+            broadcast(new ConversationUpdated($message->conversation));
 
             $this->emit('message.created', $message->id);
 

@@ -26,14 +26,20 @@
 
         public function updateConversationFromBroadcast($payload)
         {
-            if ($conversation = $this->conversations->find($payload['conversation']['id'])) {
-                $conversation->fresh();
+            if (!$this->conversations->contains($payload['conversation']['id'])) {
+
+                $this->conversations->prepend(Conversation::find($payload['conversation']['id']));
+
+            } else {
+
+                $this->conversations->find($payload['conversation']['id'])->fresh();
+
             }
         }
 
         public function mount(Collection $conversations)
         {
-            $this->conversations = $conversations;
+            $this->conversations = $conversations->reverse();
         }
 
         public function render()

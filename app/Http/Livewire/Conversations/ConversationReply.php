@@ -18,7 +18,7 @@
         public $conversation;
         protected $rules = [
             'body' => 'required',
-            'attachment' => 'nullable|file|mimes:png, jpg, jpeg, gif, wav, mp3, mp4|max:102400'
+            'attachment' => 'nullable|file|mimes:png,jpg,jpeg,gif,wav,mp3,mp4|max:102400'
         ];
 
         public function mount(Conversation $conversation)

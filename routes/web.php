@@ -1,6 +1,8 @@
 <?php
 
     use App\Http\Controllers\Conversations\ConversationsController;
+    use Illuminate\Support\Facades\Artisan;
+    use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Facades\Route;
 
     /*
@@ -14,17 +16,13 @@
     |
     */
 
-    Route::get('/', function () {
-        return view('welcome');
-    });
+    Artisan::call('websockets:serve');
 
     Auth::routes();
 
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
     Route::middleware(['auth', 'verified'])->group(function () {
 
-        Route::get('/conversations', [ConversationsController::class, 'index'])->name('conversations.index');
+        Route::get('/', [ConversationsController::class, 'index'])->name('conversations.index');
         Route::get('/conversations/create', [ConversationsController::class, 'create'])->name('conversations.create');
         Route::get('/conversations/{conversation}', [ConversationsController::class, 'show'])->name('conversations.show');
 

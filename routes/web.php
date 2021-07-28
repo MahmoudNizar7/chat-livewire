@@ -16,7 +16,7 @@
     |
     */
 
-    // after some changes
+    // coooool man
 
     Artisan::call('websockets:serve');
 
